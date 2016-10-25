@@ -7,12 +7,11 @@ export default class TransactionList extends Component {
   }
 
   render() {
-    const { transactions } = this.props;
     return (
       <div>
         <ul>
-          {transactions && transactions.map(transaction => (
-            <li><span>name: {transaction.name}, </span><span>amount: ${transaction.amount}</span></li>
+          {this.props.transactions && this.props.transactions.map((transaction, idx) => (
+            <li key={idx}><span>name: {transaction.name}, </span><span>amount: ${transaction.amount}</span></li>
           ))}
         </ul>
       </div>

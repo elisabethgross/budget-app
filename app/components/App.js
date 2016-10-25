@@ -1,10 +1,10 @@
 import React from 'react';
-import AddTransactions from './AddTransactions';
+import AddTransactionsContainer from '../containers/AddTransactionsContainer';
 import TransactionsListContainer from '../containers/TransactionsListContainer';
 
 export default () => (
   <div>
-    <AddTransactions/>
+    <AddTransactionsContainer/>
     <TransactionsListContainer/>
   </div>
 );

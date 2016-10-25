@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.15.2",
     "babel-eslint": "^6.1.2",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",

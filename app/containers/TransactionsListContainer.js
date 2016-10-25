@@ -14,6 +14,6 @@ const mapDispatchToProps = function (dispatch) {
   };
 };
 
-const AddTransactionsContainer = connect(mapStateToProps, mapDispatchToProps)(TransactionsList);
+const TransactionsListContainer = connect(mapStateToProps, mapDispatchToProps)(TransactionsList);
 
-export default AddTransactionsContainer;
+export default TransactionsListContainer;

@@ -1,10 +1,57 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default () => (
-  <form>
-    <h4>Add a transaction</h4><br/>
-    <input type="text" placeholder="name"/><br/>
-    $<input type="text" placeholder="amount"/><br/>
-    <button>Add Transaction</button>
-  </form>
-);
+export default class AddTransaction extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      transactionName: '',
+      transactionAmount: ''
+    };
+  }
+
+  render() {
+    const { addDaTransaction } = this.props;
+    return (
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        addDaTransaction({
+          name: this.state.transactionName,
+          amount: this.state.transactionAmount
+        });
+        return false;
+      }}>
+        <div>
+          {this.state.transactionName}
+        </div>
+        <div>
+          {this.state.transactionAmount}
+        </div>
+        <h4>Add a transaction</h4><br />
+        <input
+          value={this.state.transactionName}
+          onChange={(e) => {
+            const newName = e.target.value;
+            this.setState({
+              transactionName: newName
+            });
+          } }
+          placeholder="name"
+          type="text"
+          /><br />
+        $<input
+          value={this.state.transactionAmount}
+          onChange={(e) => {
+            const newAmount = e.target.value;
+            this.setState({
+              transactionAmount: newAmount
+            });
+          } }
+          type="text"
+          placeholder="amount"
+          /><br />
+        <button type="submit">Add Transaction</button>
+      </form>
+    );
+  }
+}
