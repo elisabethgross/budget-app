@@ -20696,10 +20696,15 @@
 	
 	var _transactions2 = _interopRequireDefault(_transactions);
 	
+	var _total = __webpack_require__(226);
+	
+	var _total2 = _interopRequireDefault(_total);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var rootReducer = (0, _redux.combineReducers)({
-	  transactions: _transactions2.default
+	  transactions: _transactions2.default,
+	  total: _total2.default
 	});
 	
 	exports.default = rootReducer;
@@ -23884,6 +23889,10 @@
 	
 	var _TransactionsListContainer2 = _interopRequireDefault(_TransactionsListContainer);
 	
+	var _TotalContainer = __webpack_require__(224);
+	
+	var _TotalContainer2 = _interopRequireDefault(_TotalContainer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function () {
@@ -23891,7 +23900,8 @@
 	    'div',
 	    null,
 	    _react2.default.createElement(_AddTransactionsContainer2.default, null),
-	    _react2.default.createElement(_TransactionsListContainer2.default, null)
+	    _react2.default.createElement(_TransactionsListContainer2.default, null),
+	    _react2.default.createElement(_TotalContainer2.default, null)
 	  );
 	};
 
@@ -24151,6 +24161,164 @@
 	}(_react.Component);
 	
 	exports.default = TransactionList;
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(210);
+	
+	var _Total = __webpack_require__(225);
+	
+	var _Total2 = _interopRequireDefault(_Total);
+	
+	var _total = __webpack_require__(227);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    total: state.total
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    getDaTotal: function getDaTotal() {
+	      return dispatch((0, _total.getTotal)());
+	    }
+	  };
+	};
+	
+	var TotalContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Total2.default);
+	
+	exports.default = TotalContainer;
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Total = function (_Component) {
+	  _inherits(Total, _Component);
+	
+	  function Total() {
+	    _classCallCheck(this, Total);
+	
+	    return _possibleConstructorReturn(this, (Total.__proto__ || Object.getPrototypeOf(Total)).apply(this, arguments));
+	  }
+	
+	  _createClass(Total, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.getDaTotal();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'TOTAL: ',
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            '$',
+	            this.props.total
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Total;
+	}(_react.Component);
+	
+	exports.default = Total;
+
+/***/ },
+/* 226 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = transactions;
+	
+	var _total = __webpack_require__(227);
+	
+	var initialTotal = 0;
+	
+	function transactions() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialTotal;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _total.RECEIVE_TOTAL:
+	      return action.total;
+	    default:
+	      return state;
+	  }
+	}
+
+/***/ },
+/* 227 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var RECEIVE_TOTAL = exports.RECEIVE_TOTAL = 'RECEIVE_TOTAL';
+	
+	var receiveTotal = exports.receiveTotal = function receiveTotal(total) {
+	  return {
+	    type: RECEIVE_TOTAL,
+	    total: total
+	  };
+	};
+	
+	var getTotal = exports.getTotal = function getTotal() {
+	  return function (dispatch) {
+	    return fetch('/api/transactions/total').then(function (res) {
+	      return res.json();
+	    }).then(function (total) {
+	      console.log('total', total);
+	      dispatch(receiveTotal(total));
+	    });
+	  };
+	};
 
 /***/ }
 /******/ ]);
