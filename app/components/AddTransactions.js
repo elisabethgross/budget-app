@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+
+
 export default class AddTransaction extends Component {
 
   constructor() {
@@ -10,23 +12,22 @@ export default class AddTransaction extends Component {
     };
   }
 
+
   render() {
     const { addDaTransaction } = this.props;
     return (
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        addDaTransaction({
-          name: this.state.transactionName,
-          amount: this.state.transactionAmount
-        });
-        return false;
-      }}>
-        <div>
-          {this.state.transactionName}
-        </div>
-        <div>
-          {this.state.transactionAmount}
-        </div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addDaTransaction({
+            name: this.state.transactionName,
+            amount: this.state.transactionAmount
+          });
+          this.refs.form.reset();
+          return false;
+        } }
+        ref="form"
+        >
         <h4>Add a transaction</h4><br />
         <input
           value={this.state.transactionName}

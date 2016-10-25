@@ -23981,24 +23981,18 @@
 	
 	      return _react2.default.createElement(
 	        'form',
-	        { onSubmit: function onSubmit(e) {
+	        {
+	          onSubmit: function onSubmit(e) {
 	            e.preventDefault();
 	            addDaTransaction({
 	              name: _this2.state.transactionName,
 	              amount: _this2.state.transactionAmount
 	            });
+	            _this2.refs.form.reset();
 	            return false;
-	          } },
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          this.state.transactionName
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          this.state.transactionAmount
-	        ),
+	          },
+	          ref: 'form'
+	        },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
