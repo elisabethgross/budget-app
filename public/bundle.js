@@ -20696,15 +20696,10 @@
 	
 	var _transactions2 = _interopRequireDefault(_transactions);
 	
-	var _total = __webpack_require__(204);
-	
-	var _total2 = _interopRequireDefault(_total);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var rootReducer = (0, _redux.combineReducers)({
-	  transactions: _transactions2.default,
-	  total: _total2.default
+	  transactions: _transactions2.default
 	});
 	
 	exports.default = rootReducer;
@@ -22275,62 +22270,8 @@
 
 
 /***/ },
-/* 203 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var RECEIVE_TOTAL = exports.RECEIVE_TOTAL = 'RECEIVE_TOTAL';
-	
-	var receiveTotal = exports.receiveTotal = function receiveTotal(total) {
-	  return {
-	    type: RECEIVE_TOTAL,
-	    total: total
-	  };
-	};
-	
-	var getTotal = exports.getTotal = function getTotal() {
-	  return function (dispatch) {
-	    return fetch('/api/transactions/total').then(function (res) {
-	      return res.json();
-	    }).then(function (total) {
-	      console.log('total', total);
-	      dispatch(receiveTotal(total));
-	    });
-	  };
-	};
-
-/***/ },
-/* 204 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = transactions;
-	
-	var _total = __webpack_require__(203);
-	
-	var initialTotal = 0;
-	
-	function transactions() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialTotal;
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case _total.RECEIVE_TOTAL:
-	      return action.total;
-	    default:
-	      return state;
-	  }
-	}
-
-/***/ },
+/* 203 */,
+/* 204 */,
 /* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
