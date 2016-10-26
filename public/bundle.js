@@ -58,9 +58,9 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _reactRedux = __webpack_require__(210);
+	var _reactRedux = __webpack_require__(212);
 	
-	var _App = __webpack_require__(219);
+	var _App = __webpack_require__(221);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
@@ -19782,11 +19782,11 @@
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
-	var _reduxLogger = __webpack_require__(203);
+	var _reduxLogger = __webpack_require__(205);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
-	var _reduxThunk = __webpack_require__(209);
+	var _reduxThunk = __webpack_require__(211);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
@@ -20696,7 +20696,7 @@
 	
 	var _transactions2 = _interopRequireDefault(_transactions);
 	
-	var _total = __webpack_require__(226);
+	var _total = __webpack_require__(204);
 	
 	var _total2 = _interopRequireDefault(_total);
 	
@@ -20787,9 +20787,7 @@
 	    return _axios2.default.post('/api/transactions', {
 	      name: transaction.name,
 	      amount: transaction.amount
-	    }).then(function (promise) {
-	      return transaction;
-	    }).then(function (transaction) {
+	    }).then(function () {
 	      dispatch(receiveTransaction(transaction));
 	    });
 	  };
@@ -22278,6 +22276,62 @@
 
 /***/ },
 /* 203 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var RECEIVE_TOTAL = exports.RECEIVE_TOTAL = 'RECEIVE_TOTAL';
+	
+	var receiveTotal = exports.receiveTotal = function receiveTotal(total) {
+	  return {
+	    type: RECEIVE_TOTAL,
+	    total: total
+	  };
+	};
+	
+	var getTotal = exports.getTotal = function getTotal() {
+	  return function (dispatch) {
+	    return fetch('/api/transactions/total').then(function (res) {
+	      return res.json();
+	    }).then(function (total) {
+	      console.log('total', total);
+	      dispatch(receiveTotal(total));
+	    });
+	  };
+	};
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = transactions;
+	
+	var _total = __webpack_require__(203);
+	
+	var initialTotal = 0;
+	
+	function transactions() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialTotal;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _total.RECEIVE_TOTAL:
+	      return action.total;
+	    default:
+	      return state;
+	  }
+	}
+
+/***/ },
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22288,11 +22342,11 @@
 	  value: true
 	});
 	
-	var _core = __webpack_require__(204);
+	var _core = __webpack_require__(206);
 	
-	var _helpers = __webpack_require__(205);
+	var _helpers = __webpack_require__(207);
 	
-	var _defaults = __webpack_require__(208);
+	var _defaults = __webpack_require__(210);
 	
 	var _defaults2 = _interopRequireDefault(_defaults);
 	
@@ -22395,7 +22449,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 204 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22405,9 +22459,9 @@
 	});
 	exports.printBuffer = printBuffer;
 	
-	var _helpers = __webpack_require__(205);
+	var _helpers = __webpack_require__(207);
 	
-	var _diff = __webpack_require__(206);
+	var _diff = __webpack_require__(208);
 	
 	var _diff2 = _interopRequireDefault(_diff);
 	
@@ -22528,7 +22582,7 @@
 	}
 
 /***/ },
-/* 205 */
+/* 207 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22552,7 +22606,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 206 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22562,7 +22616,7 @@
 	});
 	exports.default = diffLogger;
 	
-	var _deepDiff = __webpack_require__(207);
+	var _deepDiff = __webpack_require__(209);
 	
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 	
@@ -22648,7 +22702,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 207 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -23077,7 +23131,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 208 */
+/* 210 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -23128,7 +23182,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 209 */
+/* 211 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23156,7 +23210,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 210 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23164,11 +23218,11 @@
 	exports.__esModule = true;
 	exports.connect = exports.Provider = undefined;
 	
-	var _Provider = __webpack_require__(211);
+	var _Provider = __webpack_require__(213);
 	
 	var _Provider2 = _interopRequireDefault(_Provider);
 	
-	var _connect = __webpack_require__(214);
+	var _connect = __webpack_require__(216);
 	
 	var _connect2 = _interopRequireDefault(_connect);
 	
@@ -23178,7 +23232,7 @@
 	exports.connect = _connect2["default"];
 
 /***/ },
-/* 211 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -23188,11 +23242,11 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _storeShape = __webpack_require__(212);
+	var _storeShape = __webpack_require__(214);
 	
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 	
-	var _warning = __webpack_require__(213);
+	var _warning = __webpack_require__(215);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -23262,7 +23316,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 212 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23278,7 +23332,7 @@
 	});
 
 /***/ },
-/* 213 */
+/* 215 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23307,7 +23361,7 @@
 	}
 
 /***/ },
-/* 214 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -23319,19 +23373,19 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _storeShape = __webpack_require__(212);
+	var _storeShape = __webpack_require__(214);
 	
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 	
-	var _shallowEqual = __webpack_require__(215);
+	var _shallowEqual = __webpack_require__(217);
 	
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 	
-	var _wrapActionCreators = __webpack_require__(216);
+	var _wrapActionCreators = __webpack_require__(218);
 	
 	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
 	
-	var _warning = __webpack_require__(213);
+	var _warning = __webpack_require__(215);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -23339,11 +23393,11 @@
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _hoistNonReactStatics = __webpack_require__(217);
+	var _hoistNonReactStatics = __webpack_require__(219);
 	
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 	
-	var _invariant = __webpack_require__(218);
+	var _invariant = __webpack_require__(220);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
@@ -23706,7 +23760,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 215 */
+/* 217 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -23737,7 +23791,7 @@
 	}
 
 /***/ },
-/* 216 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23754,7 +23808,7 @@
 	}
 
 /***/ },
-/* 217 */
+/* 219 */
 /***/ function(module, exports) {
 
 	/**
@@ -23810,7 +23864,7 @@
 
 
 /***/ },
-/* 218 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -23868,7 +23922,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 219 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23881,17 +23935,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _AddTransactionsContainer = __webpack_require__(220);
+	var _AddTransactionsContainer = __webpack_require__(222);
 	
 	var _AddTransactionsContainer2 = _interopRequireDefault(_AddTransactionsContainer);
 	
-	var _TransactionsListContainer = __webpack_require__(222);
+	var _TransactionsListContainer = __webpack_require__(224);
 	
 	var _TransactionsListContainer2 = _interopRequireDefault(_TransactionsListContainer);
-	
-	var _TotalContainer = __webpack_require__(224);
-	
-	var _TotalContainer2 = _interopRequireDefault(_TotalContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -23900,13 +23950,12 @@
 	    'div',
 	    null,
 	    _react2.default.createElement(_AddTransactionsContainer2.default, null),
-	    _react2.default.createElement(_TransactionsListContainer2.default, null),
-	    _react2.default.createElement(_TotalContainer2.default, null)
+	    _react2.default.createElement(_TransactionsListContainer2.default, null)
 	  );
 	};
 
 /***/ },
-/* 220 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23915,9 +23964,9 @@
 	  value: true
 	});
 	
-	var _reactRedux = __webpack_require__(210);
+	var _reactRedux = __webpack_require__(212);
 	
-	var _AddTransactions = __webpack_require__(221);
+	var _AddTransactions = __webpack_require__(223);
 	
 	var _AddTransactions2 = _interopRequireDefault(_AddTransactions);
 	
@@ -23944,7 +23993,7 @@
 	exports.default = AddTransactionsContainer;
 
 /***/ },
-/* 221 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24049,7 +24098,7 @@
 	exports.default = AddTransaction;
 
 /***/ },
-/* 222 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24058,9 +24107,9 @@
 	  value: true
 	});
 	
-	var _reactRedux = __webpack_require__(210);
+	var _reactRedux = __webpack_require__(212);
 	
-	var _TransactionsList = __webpack_require__(223);
+	var _TransactionsList = __webpack_require__(225);
 	
 	var _TransactionsList2 = _interopRequireDefault(_TransactionsList);
 	
@@ -24087,7 +24136,7 @@
 	exports.default = TransactionsListContainer;
 
 /***/ },
-/* 223 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24101,6 +24150,10 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _Total = __webpack_require__(226);
+	
+	var _Total2 = _interopRequireDefault(_Total);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -24116,13 +24169,26 @@
 	  function TransactionList() {
 	    _classCallCheck(this, TransactionList);
 	
-	    return _possibleConstructorReturn(this, (TransactionList.__proto__ || Object.getPrototypeOf(TransactionList)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (TransactionList.__proto__ || Object.getPrototypeOf(TransactionList)).call(this));
+	
+	    _this.calculateTotal = _this.calculateTotal.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(TransactionList, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.props.fetchDaTransactions();
+	    }
+	  }, {
+	    key: 'calculateTotal',
+	    value: function calculateTotal() {
+	      var sum = 0;
+	      this.props.transactions.forEach(function (transaction) {
+	        // console.log(transaction.amount);
+	        sum += Number(transaction.amount);
+	      });
+	      return sum;
 	    }
 	  }, {
 	    key: 'render',
@@ -24152,7 +24218,8 @@
 	              )
 	            );
 	          })
-	        )
+	        ),
+	        _react2.default.createElement(_Total2.default, { total: this.calculateTotal() })
 	      );
 	    }
 	  }]);
@@ -24163,45 +24230,7 @@
 	exports.default = TransactionList;
 
 /***/ },
-/* 224 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(210);
-	
-	var _Total = __webpack_require__(225);
-	
-	var _Total2 = _interopRequireDefault(_Total);
-	
-	var _total = __webpack_require__(227);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    total: state.total
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    getDaTotal: function getDaTotal() {
-	      return dispatch((0, _total.getTotal)());
-	    }
-	  };
-	};
-	
-	var TotalContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Total2.default);
-	
-	exports.default = TotalContainer;
-
-/***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24234,11 +24263,6 @@
 	  }
 	
 	  _createClass(Total, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.props.getDaTotal();
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -24263,62 +24287,6 @@
 	}(_react.Component);
 	
 	exports.default = Total;
-
-/***/ },
-/* 226 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = transactions;
-	
-	var _total = __webpack_require__(227);
-	
-	var initialTotal = 0;
-	
-	function transactions() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialTotal;
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case _total.RECEIVE_TOTAL:
-	      return action.total;
-	    default:
-	      return state;
-	  }
-	}
-
-/***/ },
-/* 227 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var RECEIVE_TOTAL = exports.RECEIVE_TOTAL = 'RECEIVE_TOTAL';
-	
-	var receiveTotal = exports.receiveTotal = function receiveTotal(total) {
-	  return {
-	    type: RECEIVE_TOTAL,
-	    total: total
-	  };
-	};
-	
-	var getTotal = exports.getTotal = function getTotal() {
-	  return function (dispatch) {
-	    return fetch('/api/transactions/total').then(function (res) {
-	      return res.json();
-	    }).then(function (total) {
-	      console.log('total', total);
-	      dispatch(receiveTotal(total));
-	    });
-	  };
-	};
 
 /***/ }
 /******/ ]);

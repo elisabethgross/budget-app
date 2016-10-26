@@ -10,6 +10,19 @@ var Transactions = db.define('transactions', {
     type: Sequelize.FLOAT,
     allowNull: false
   }
+}, {
+  classMethods: {
+    getTotal: function () {
+      return Transactions.findAll({ raw: true })
+      .then(transactions => {
+        let sum = 0;
+        transactions.forEach(transaction => {
+          sum += transaction.amount;
+        });
+        return sum;
+      });
+    }
+  }
 });
 
 module.exports = Transactions;

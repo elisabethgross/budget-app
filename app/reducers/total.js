@@ -8,3 +8,4 @@ export default function transactions (state = initialTotal, action) {
     default: return state;
   }
 }
+
