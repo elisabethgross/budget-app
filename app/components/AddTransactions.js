@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-
-
+import CategoriesListContainer from '../containers/CategoriesListContainer';
 
 export default class AddTransaction extends Component {
 
@@ -37,7 +36,7 @@ export default class AddTransaction extends Component {
               transactionName: newName
             });
           } }
-          placeholder="name"
+          placeholder="Transaction Name"
           type="text"
           /><br />
         $<input
@@ -51,6 +50,7 @@ export default class AddTransaction extends Component {
           type="text"
           placeholder="amount"
           /><br />
+        <CategoriesListContainer/>
         <button type="submit">Add Transaction</button>
       </form>
     );
