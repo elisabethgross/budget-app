@@ -26,7 +26,7 @@ export default class TransactionList extends Component {
       <div>
         <ul>
           {this.props.transactions && this.props.transactions.map((transaction, idx) => (
-            <li key={idx}><span>name: {transaction.name}, </span><span>amount: ${transaction.amount}</span></li>
+            <li key={idx}><span>name: {transaction.name}, </span><span>amount: ${transaction.amount}, </span><span>category: {transaction.category.name}</span></li>
           ))}
         </ul>
         <Total total={this.calculateTotal()}/>

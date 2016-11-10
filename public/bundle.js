@@ -20788,7 +20788,9 @@
 	      name: transaction.name,
 	      amount: transaction.amount,
 	      category: transaction.category
-	    }).then(function () {
+	    }).then(function (res) {
+	      var transaction = res.data;
+	      console.log('transaction', transaction);
 	      dispatch(receiveTransaction(transaction));
 	    });
 	  };
@@ -24299,7 +24301,14 @@
 	                'span',
 	                null,
 	                'amount: $',
-	                transaction.amount
+	                transaction.amount,
+	                ', '
+	              ),
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                'category: ',
+	                transaction.category.name
 	              )
 	            );
 	          })

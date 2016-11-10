@@ -27,7 +27,9 @@ export const addTransaction = transaction =>
       name: transaction.name,
       amount: transaction.amount,
       category: transaction.category
-    }).then(() => {
+    }).then(res => {
+      let transaction = res.data;
+      console.log('transaction', transaction);
       dispatch(receiveTransaction(transaction));
     });
 
