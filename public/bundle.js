@@ -24146,7 +24146,7 @@
 	        _react2.default.createElement(
 	          'select',
 	          {
-	            value: this.state.transactionCategory && this.state.transactionCategory.name,
+	            value: this.state.transactionCategory.name,
 	            onChange: function onChange(e) {
 	              var newCategoryname = e.target.value;
 	              var newCategory = _this2.props.categories.filter(function (elem) {
