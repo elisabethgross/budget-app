@@ -25,7 +25,8 @@ export const addTransaction = transaction =>
   dispatch =>
     axios.post('/api/transactions', {
       name: transaction.name,
-      amount: transaction.amount
+      amount: transaction.amount,
+      category: transaction.category
     }).then(() => {
       dispatch(receiveTransaction(transaction));
     });

@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
-import CategoriesListContainer from '../containers/CategoriesListContainer';
 
 export default class AddTransaction extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       transactionName: '',
-      transactionAmount: ''
+      transactionAmount: '',
+      transactionCategory: ''
     };
   }
 
+  componentDidMount() {
+    this.props.fetchDaCategories();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    var defaultCategory = nextProps.categories[0];
+    this.setState({
+      transactionCategory: defaultCategory
+    });
+  }
 
   render() {
+    const self = this;
     const { addDaTransaction } = this.props;
     return (
       <form
@@ -20,9 +31,14 @@ export default class AddTransaction extends Component {
           e.preventDefault();
           addDaTransaction({
             name: this.state.transactionName,
-            amount: this.state.transactionAmount
+            amount: this.state.transactionAmount,
+            category: this.state.transactionCategory
           });
           this.refs.form.reset();
+          this.setState({
+            transactionName: '',
+            transactionAmount: ''
+          });
           return false;
         } }
         ref="form"
@@ -50,7 +66,25 @@ export default class AddTransaction extends Component {
           type="text"
           placeholder="amount"
           /><br />
-        <CategoriesListContainer/>
+          <select
+            value={this.state.transactionCategory}
+            onChange={(e) => {
+              const newCategoryId = e.target.value;
+              const newCategory = this.props.categories.filter(elem => +elem.id === +newCategoryId);
+              console.log(newCategory);
+              this.setState({
+                transactionCategory: newCategory[0]
+              });
+              return false;
+            } }
+            >
+            {this.props.categories && this.props.categories.map((category, idx) => (
+              <option
+                key={idx}
+                value={category.id}
+                >{category.name}</option>
+            ))}
+          </select>
         <button type="submit">Add Transaction</button>
       </form>
     );

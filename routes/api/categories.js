@@ -4,12 +4,14 @@ module.exports = router;
 
 router.get('/', function (req, res, next) {
   Category.findAll()
-  .then(categories => res.json(categories))
+  .then(categories => {
+    res.json(categories);
+  })
   .catch(next);
 });
 
 router.post('/', function (req, res, next) {
-  Category.create(req.body)
+  Category.create(req.body, {raw:true})
   .then(createdCategory => res.json(createdCategory))
   .catch(next);
 });

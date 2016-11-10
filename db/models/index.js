@@ -7,8 +7,8 @@ const Category = require('./category');
 // so any other part of the application could call sequelize.model('Song')
 // to get access to the Song model.
 
-Category.hasMany(Transaction); // can do Category.getTransactions to get all transactions
-Transaction.belongsTo(Category); // Transaction.getCategory to get the category
+Category.hasMany(Transaction); // Can do Category.getTransactions to get all transactions
+Transaction.belongsTo(Category); // Adds a categoryId column to the Transaction table, Transaction.getCategory to get the category
 
 module.exports = {
   Transaction: Transaction,

@@ -25,6 +25,7 @@ export const addCategory = category =>
   dispatch =>
     axios.post('/api/categories', {
       name: category.name
-    }).then(() => {
+    }).then(res => {
+      let category = res.data;
       dispatch(receiveCategory(category));
     });
