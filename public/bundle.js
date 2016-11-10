@@ -24146,17 +24146,15 @@
 	        _react2.default.createElement(
 	          'select',
 	          {
-	            value: this.state.transactionCategory,
+	            value: this.state.transactionCategory && this.state.transactionCategory.name,
 	            onChange: function onChange(e) {
-	              var newCategoryId = e.target.value;
+	              var newCategoryname = e.target.value;
 	              var newCategory = _this2.props.categories.filter(function (elem) {
-	                return +elem.id === +newCategoryId;
+	                return elem.name === newCategoryname;
 	              });
-	              console.log(newCategory);
 	              _this2.setState({
 	                transactionCategory: newCategory[0]
 	              });
-	              return false;
 	            }
 	          },
 	          this.props.categories && this.props.categories.map(function (category, idx) {
@@ -24164,7 +24162,7 @@
 	              'option',
 	              {
 	                key: idx,
-	                value: category.id
+	                value: category.name
 	              },
 	              category.name
 	            );
