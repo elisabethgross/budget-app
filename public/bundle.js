@@ -24148,7 +24148,7 @@
 	        _react2.default.createElement(
 	          'select',
 	          {
-	            value: this.state.transactionCategory.name,
+	            value: this.state.transactionCategory && this.state.transactionCategory.name,
 	            onChange: function onChange(e) {
 	              var newCategoryname = e.target.value;
 	              var newCategory = _this2.props.categories.filter(function (elem) {
@@ -24277,6 +24277,9 @@
 	      });
 	      return sum;
 	    }
+	
+	    // <li key={idx}><span>name: {transaction.name}, </span><span>amount: ${transaction.amount}, </span><span>category: {transaction.category.name}</span></li>
+	
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -24286,31 +24289,18 @@
 	        _react2.default.createElement(
 	          'ul',
 	          null,
+	          console.log('this.props.transactions', this.props.transactions),
 	          this.props.transactions && this.props.transactions.map(function (transaction, idx) {
-	            return _react2.default.createElement(
+	            return transaction ? _react2.default.createElement(
 	              'li',
 	              { key: idx },
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                'name: ',
-	                transaction.name,
-	                ', '
-	              ),
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                'amount: $',
-	                transaction.amount,
-	                ', '
-	              ),
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                'category: ',
-	                transaction.category.name
-	              )
-	            );
+	              'name: ',
+	              transaction.name,
+	              ', amount: $',
+	              transaction.amount,
+	              ', category: ',
+	              transaction.category.name
+	            ) : null;
 	          })
 	        ),
 	        _react2.default.createElement(_Total2.default, { total: this.calculateTotal() })

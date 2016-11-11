@@ -4,7 +4,7 @@ const Category = require('../../db/models').Category;
 module.exports = router;
 
 router.get('/', function (req, res, next) {
-  Transaction.findAll()
+  Transaction.findAll({include: [ Category ]})
     .then(transactions => res.json(transactions))
     .catch(next);
 });
@@ -20,7 +20,7 @@ router.post('/', function (req, res, next) {
     })
     .then(transaction => {
       Transaction.findById(transaction.id, {include: [ Category ]})
-      .then(transaction => res.send(JSON.stringify(transaction)));
+      .then(transaction => res.send(transaction));
     })
     .catch(next);
 });

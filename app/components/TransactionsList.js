@@ -21,15 +21,18 @@ export default class TransactionList extends Component {
     return sum;
   }
 
+  // <li key={idx}><span>name: {transaction.name}, </span><span>amount: ${transaction.amount}, </span><span>category: {transaction.category.name}</span></li>
+
   render() {
     return (
       <div>
         <ul>
-          {this.props.transactions && this.props.transactions.map((transaction, idx) => (
-            <li key={idx}><span>name: {transaction.name}, </span><span>amount: ${transaction.amount}, </span><span>category: {transaction.category.name}</span></li>
-          ))}
+          {console.log('this.props.transactions', this.props.transactions)}
+          {this.props.transactions && this.props.transactions.map((transaction, idx) => {
+            return transaction ? <li key={idx}>name: {transaction.name}, amount: ${transaction.amount}, category: {transaction.category.name}</li> : null;
+          })}
         </ul>
-        <Total total={this.calculateTotal()}/>
+        <Total total={this.calculateTotal()} />
       </div>
     );
   }

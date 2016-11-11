@@ -67,7 +67,7 @@ export default class AddTransaction extends Component {
           placeholder="amount"
           /><br />
           <select
-            value={this.state.transactionCategory.name}
+            value={this.state.transactionCategory && this.state.transactionCategory.name}
             onChange={(e) => {
               const newCategoryname = e.target.value;
               const newCategory = this.props.categories.filter(elem => elem.name === newCategoryname);
