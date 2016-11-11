@@ -3,10 +3,11 @@ const Category = require('../../db/models').Category;
 module.exports = router;
 
 router.get('/alltransactions/:id', function (req, res, next) {
-  console.log('req.params.id', req.params.id);
   Category.findById(req.params.id)
-  .then(category => category.getTransaction)
-  .then(transactions => console.log(transactions))
+  .then(category => {
+    return category.getTransactions();
+  })
+  .then(transactions => res.send(transactions))
   .catch(next);
 });
 

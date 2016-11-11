@@ -20698,13 +20698,12 @@
 	
 	var _categories = __webpack_require__(203);
 	
-	var _categories2 = _interopRequireDefault(_categories);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var rootReducer = (0, _redux.combineReducers)({
 	  transactions: _transactions2.default,
-	  categories: _categories2.default
+	  categories: _categories.categories,
+	  categoryTransactions: _categories.categoryTransactions
 	});
 	
 	exports.default = rootReducer;
@@ -22286,11 +22285,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = categories;
+	exports.categories = categories;
+	exports.categoryTransactions = categoryTransactions;
 	
 	var _categories = __webpack_require__(204);
 	
 	var initialCategories = [];
+	var initialCategoryTransactions = [];
 	
 	function categories() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialCategories;
@@ -22305,6 +22306,18 @@
 	      return state;
 	  }
 	}
+	
+	function categoryTransactions() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialCategoryTransactions;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _categories.RECEIVE_CATEGORY_TRANSACTIONS:
+	      return action.categoryTransactions;
+	    default:
+	      return state;
+	  }
+	}
 
 /***/ },
 /* 204 */
@@ -22315,7 +22328,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.addCategory = exports.fetchCategories = exports.receiveCategory = exports.receiveCategories = exports.RECEIVE_CATEGORY = exports.RECEIVE_CATEGORIES = undefined;
+	exports.fetchCategoryTransactions = exports.addCategory = exports.fetchCategories = exports.receiveCategoryTransactions = exports.receiveCategory = exports.receiveCategories = exports.RECEIVE_CATEGORY_TRANSACTIONS = exports.RECEIVE_CATEGORY = exports.RECEIVE_CATEGORIES = undefined;
 	
 	var _axios = __webpack_require__(178);
 	
@@ -22325,6 +22338,7 @@
 	
 	var RECEIVE_CATEGORIES = exports.RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 	var RECEIVE_CATEGORY = exports.RECEIVE_CATEGORY = 'RECEIVE_CATEGORY';
+	var RECEIVE_CATEGORY_TRANSACTIONS = exports.RECEIVE_CATEGORY_TRANSACTIONS = 'RECEIVE_CATEGORY_TRANSACTIONS';
 	
 	var receiveCategories = exports.receiveCategories = function receiveCategories(categories) {
 	  return {
@@ -22337,6 +22351,13 @@
 	  return {
 	    type: RECEIVE_CATEGORY,
 	    category: category
+	  };
+	};
+	
+	var receiveCategoryTransactions = exports.receiveCategoryTransactions = function receiveCategoryTransactions(categoryTransactions) {
+	  return {
+	    type: RECEIVE_CATEGORY_TRANSACTIONS,
+	    categoryTransactions: categoryTransactions
 	  };
 	};
 	
@@ -22357,6 +22378,16 @@
 	    }).then(function (res) {
 	      var category = res.data;
 	      dispatch(receiveCategory(category));
+	    });
+	  };
+	};
+	
+	var fetchCategoryTransactions = exports.fetchCategoryTransactions = function fetchCategoryTransactions(category) {
+	  return function (dispatch) {
+	    return fetch('/api/categories/alltransactions/' + category.id).then(function (res) {
+	      return res.json();
+	    }).then(function (categoryTransactions) {
+	      dispatch(receiveCategoryTransactions(categoryTransactions));
 	    });
 	  };
 	};
@@ -23974,7 +24005,7 @@
 	
 	var _TransactionsListContainer2 = _interopRequireDefault(_TransactionsListContainer);
 	
-	var _CreateCategoryContainer = __webpack_require__(227);
+	var _CreateCategoryContainer = __webpack_require__(228);
 	
 	var _CreateCategoryContainer2 = _interopRequireDefault(_CreateCategoryContainer);
 	
@@ -24202,11 +24233,14 @@
 	
 	var _transactions = __webpack_require__(177);
 	
+	var _categories = __webpack_require__(204);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    transactions: state.transactions
+	    transactions: state.transactions,
+	    categories: state.categories
 	  };
 	};
 	
@@ -24214,6 +24248,9 @@
 	  return {
 	    fetchDaTransactions: function fetchDaTransactions() {
 	      return dispatch((0, _transactions.fetchTransactions)());
+	    },
+	    fetchDaCategories: function fetchDaCategories() {
+	      return dispatch((0, _categories.fetchCategories)());
 	    }
 	  };
 	};
@@ -24238,9 +24275,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Total = __webpack_require__(226);
+	var _TotalContainer = __webpack_require__(226);
 	
-	var _Total2 = _interopRequireDefault(_Total);
+	var _TotalContainer2 = _interopRequireDefault(_TotalContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -24256,30 +24293,15 @@
 	  function TransactionList() {
 	    _classCallCheck(this, TransactionList);
 	
-	    var _this = _possibleConstructorReturn(this, (TransactionList.__proto__ || Object.getPrototypeOf(TransactionList)).call(this));
-	
-	    _this.calculateTotal = _this.calculateTotal.bind(_this);
-	    return _this;
+	    return _possibleConstructorReturn(this, (TransactionList.__proto__ || Object.getPrototypeOf(TransactionList)).call(this));
 	  }
 	
 	  _createClass(TransactionList, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.props.fetchDaTransactions();
+	      this.props.fetchDaCategories();
 	    }
-	  }, {
-	    key: 'calculateTotal',
-	    value: function calculateTotal() {
-	      var sum = 0;
-	      this.props.transactions.forEach(function (transaction) {
-	        // console.log(transaction.amount);
-	        sum += Number(transaction.amount);
-	      });
-	      return sum;
-	    }
-	
-	    // <li key={idx}><span>name: {transaction.name}, </span><span>amount: ${transaction.amount}, </span><span>category: {transaction.category.name}</span></li>
-	
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -24289,7 +24311,6 @@
 	        _react2.default.createElement(
 	          'ul',
 	          null,
-	          console.log('this.props.transactions', this.props.transactions),
 	          this.props.transactions && this.props.transactions.map(function (transaction, idx) {
 	            return transaction ? _react2.default.createElement(
 	              'li',
@@ -24303,7 +24324,7 @@
 	            ) : null;
 	          })
 	        ),
-	        _react2.default.createElement(_Total2.default, { total: this.calculateTotal() })
+	        _react2.default.createElement(_TotalContainer2.default, null)
 	      );
 	    }
 	  }]);
@@ -24315,6 +24336,54 @@
 
 /***/ },
 /* 226 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(212);
+	
+	var _Total = __webpack_require__(227);
+	
+	var _Total2 = _interopRequireDefault(_Total);
+	
+	var _categories = __webpack_require__(204);
+	
+	var _transactions = __webpack_require__(177);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    categoryTransactions: state.categoryTransactions,
+	    categories: state.categories,
+	    transactions: state.transactions
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchDaCategoryTransactions: function fetchDaCategoryTransactions(category) {
+	      return dispatch((0, _categories.fetchCategoryTransactions)(category));
+	    },
+	    fetchDaCategories: function fetchDaCategories() {
+	      return dispatch((0, _categories.fetchCategories)());
+	    },
+	    fetchDaTransactions: function fetchDaTransactions() {
+	      return dispatch((0, _transactions.fetchTransactions)());
+	    }
+	  };
+	};
+	
+	var TotalContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Total2.default);
+	
+	exports.default = TotalContainer;
+
+/***/ },
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24347,22 +24416,59 @@
 	  }
 	
 	  _createClass(Total, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.fetchDaCategories();
+	      this.props.fetchDaTransactions();
+	    }
+	  }, {
+	    key: 'getCategoryTransactionsTotal',
+	    value: function getCategoryTransactionsTotal(category) {
+	      var sum = 0;
+	      var categoryTransactions = this.props.transactions.filter(function (transaction) {
+	        return transaction.categoryId === category.id;
+	      });
+	      categoryTransactions.forEach(function (categoryTransaction) {
+	        sum += Number(categoryTransaction.amount);
+	      });
+	      return sum;
+	    }
+	  }, {
+	    key: 'calculateTotal',
+	    value: function calculateTotal() {
+	      var sum = 0;
+	      this.props.transactions.forEach(function (transaction) {
+	        sum += Number(transaction.amount);
+	      });
+	      return sum;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          'h3',
 	          null,
-	          'TOTAL: ',
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            '$',
-	            this.props.total
-	          )
-	        )
+	          'TOTAL: $',
+	          this.calculateTotal()
+	        ),
+	        this.props.categories && this.props.categories.map(function (category, idx) {
+	          return _react2.default.createElement(
+	            'div',
+	            { key: idx },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              category.name,
+	              ' total: $',
+	              _this2.getCategoryTransactionsTotal(category)
+	            )
+	          );
+	        })
 	      );
 	    }
 	  }]);
@@ -24373,7 +24479,7 @@
 	exports.default = Total;
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24384,7 +24490,7 @@
 	
 	var _reactRedux = __webpack_require__(212);
 	
-	var _CreateCategory = __webpack_require__(228);
+	var _CreateCategory = __webpack_require__(229);
 	
 	var _CreateCategory2 = _interopRequireDefault(_CreateCategory);
 	
@@ -24411,7 +24517,7 @@
 	exports.default = CreateCategoryContainer;
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
